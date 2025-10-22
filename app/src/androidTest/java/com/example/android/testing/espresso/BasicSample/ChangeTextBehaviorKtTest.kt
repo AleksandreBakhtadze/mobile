@@ -86,4 +86,39 @@ class ChangeTextBehaviorKtTest {
         // This view is in a different Activity, no need to tell Espresso.
         onView(withId(R.id.show_text_view)).check(matches(withText(STRING_TO_BE_TYPED)))
     }
+
+    @Test
+    fun testChangeTextWithFood() {
+        val favoriteFood = "Pizza"
+
+        onView(withId(R.id.editTextUserInput))
+            .perform(typeText(favoriteFood), closeSoftKeyboard())
+
+        onView(withId(R.id.changeTextBt)).perform(click())
+
+        onView(withId(R.id.textToBeChanged))
+            .check(matches(withText(favoriteFood)))
+    }
+
+    @Test
+    fun testChangeTextWithMovieAndNextPage() {
+        val movie1 = "Inception"
+        val movie2 = "Avatar"
+
+        onView(withId(R.id.editTextUserInput))
+            .perform(typeText(movie1), closeSoftKeyboard())
+
+        onView(withId(R.id.changeTextBt)).perform(click())
+
+        onView(withId(R.id.textToBeChanged))
+            .check(matches(withText(movie1)))
+
+        onView(withId(R.id.editTextUserInput))
+            .perform(replaceText(movie2), closeSoftKeyboard())
+
+        onView(withId(R.id.activityChangeTextBtn)).perform(click())
+
+        onView(withId(R.id.show_text_view))
+            .check(matches(withText(movie2)))
+    }
 }
